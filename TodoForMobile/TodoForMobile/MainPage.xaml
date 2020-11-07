@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             xmlns:local="clr-namespace:TodoForMobile"
+             x:Class="TodoForMobile.MainPage">
+
+    <StackLayout>
+        <StackLayout Orientation="Horizontal" 
+                     Margin="10">
+            <Entry x:Name="input"
+                   Placeholder="Введите название задачи" 
+                   FontAttributes="Bold" 
+                   HorizontalOptions="FillAndExpand" 
+                   VerticalTextAlignment="End"/>
+            <Button Text="+"
+                    BackgroundColor="Green"
+                    WidthRequest="50" 
+                    CornerRadius="25"
+                    HeightRequest="50" 
+                    Margin="0,0,0,10"
+                    Scale="1"
+                    Command="{Binding addTask}"
+                    CommandParameter="{Binding Source={x:Reference Name=input}, Path=Text}"/>
+        </StackLayout>
+        <BoxView HeightRequest="3"
+                 BackgroundColor="Black"/>
+
+        <!--<StackLayout Orientation="Horizontal"
+                                 Margin="5,0">
+            <CheckBox Scale="1.5"
+                      Margin="5,0,0,0"/>
+            <Label FontAttributes="Bold" 
+                   HorizontalOptions="FillAndExpand"/>
+            <Button Text="X"
+                    BackgroundColor="Red"
+                    WidthRequest="50" 
+                    CornerRadius="15"
+                    HeightRequest="50" 
+                    Margin="0,0,5,10"
+                    Scale="1"/>
+        </StackLayout>-->
+
+
+        <ScrollView>
+            <ListView x:Name="T" ItemsSource="{Binding Tasks}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <ViewCell.View>
+                                <StackLayout Orientation="Horizontal"
+                                             Margin="5">
+                                    <CheckBox x:Name="checkBox"
+                                              Scale="1.5"
+                                              Margin="5,0,0,0"
+                                              IsChecked="{Binding Done}"/>
+                                    <Label FontAttributes="Bold" 
+                                           HorizontalOptions="FillAndExpand"
+                                           Text="{Binding Title}">
+                                        <Label.Triggers>
+                                            <DataTrigger TargetType="Label"
+                                                         Binding="{Binding Source={x:Reference checkBox}, Path=IsChecked}"
+                                                         Value="false">
+                                                <Setter Property="TextDecorations"
+                                                        Value="None" />
+                                            </DataTrigger>
+                                            <DataTrigger TargetType="Label"
+                                                         Binding="{Binding Source={x:Reference checkBox}, Path=IsChecked}"
+                                                         Value="true">
+                                                <Setter Property="TextDecorations"
+                                                        Value="Strikethrough" />
+                                            </DataTrigger>
+                                        </Label.Triggers>
+                                    </Label>
+                                    <Button Text="X"
+                                            BackgroundColor="Red"
+                                            WidthRequest="50" 
+                                            CornerRadius="15"
+                                            HeightRequest="50" 
+                                            Margin="0,0,5,10"
+                                            Scale="1"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type local:MainViewModel}}, Path=deleteTask} }"
+                                            CommandParameter="{Binding}"/>
+                                </StackLayout>
+                            </ViewCell.View>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </ScrollView>
+
+
+    </StackLayout>
+</ContentPage>
